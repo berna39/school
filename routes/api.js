@@ -6,7 +6,7 @@ router.get('/', async(req, res) => {
     await res.send('API works perfectly');
 });
 
-router.get('/users', ()=>{
+router.get('/users', (req, res)=>{
 
     User.find().then(
         user => res.json(user)
