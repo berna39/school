@@ -22,4 +22,33 @@ router.post('/users', async (req, res)=>{
     );
 });
 
+router.patch('/users/:id', async (req, res)=>{
+    let user  = await User.findById(req.params.id);
+    if(!user)
+    {
+        res.status(404).json({message: "user not found"});
+    }
+    else
+    {
+        await User.updateOne(
+            {_id: req.params.id},
+            { $set: { name: req.body.name, user_name: req.body.user_name, age: req.body.age, type: req.body.type } }
+        ).then(
+            updatedUser => res.json({message: "Updated successfully"})
+        ).catch(
+            err => res.status(400).json({"error": err})
+        );
+    }
+});
+
+router.delete('/users', async (req, res)=>{
+    const { name, user_name, age } = req.body;
+    newUser = new User(req.body);
+    newUser.save().then(
+        newUsersaved => res.json(newUsersaved)
+    ).catch(
+        err => res.status(400).json({"error": err})
+    );
+});
+
 module.exports = router;
