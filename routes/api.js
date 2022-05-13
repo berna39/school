@@ -41,14 +41,11 @@ router.patch('/users/:id', async (req, res)=>{
     }
 });
 
-router.delete('/users', async (req, res)=>{
-    const { name, user_name, age } = req.body;
-    newUser = new User(req.body);
-    newUser.save().then(
-        newUsersaved => res.json(newUsersaved)
-    ).catch(
-        err => res.status(400).json({"error": err})
-    );
+router.delete('/users/:id', async (req, res)=>{
+    let user = User.findById(req.params.id);
+    if(!user) res.status(404).json({message: "User not found"});
+    await User.deleteOne({_id: req.params.id});
+    res.json({message: "Deleted successfully"});
 });
 
 module.exports = router;
