@@ -7,7 +7,7 @@ const User = new Schema({
     user_name: String,
     age: Number,
     password: String,
-    type: Number, default: 0,
+    type: { type: Number, default: 0 },
     created: { type: Date, default: Date.now }
 });
 
