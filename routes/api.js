@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const res = require('express/lib/response');
 const User = require('../models/user.model');
 
 router.get('/', async(req, res) => {
@@ -9,7 +8,7 @@ router.get('/', async(req, res) => {
 router.get('/users', (req, res)=>{
 
     User.find().then(
-        user => res.json(user)
+        user => res.send(user)
     ).catch(err => res.status(400).json({"error": err})
     );
 
