@@ -3,10 +3,29 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const User = new Schema({
-    name: String,
-    user_name: String,
-    age: Number,
-    password: String,
+    name: {
+        type: String,
+        required: true,
+        min: 6,
+        max: 191
+    },
+    user_name: {
+        type: String,
+        required: true,
+        min: 6,
+        max: 191
+    },
+    age: {
+        type: Number,
+        required: true,
+        min: 1,
+    },
+    password: {
+        type: String,
+        required: true,
+        min: 6,
+        max: 191
+    },
     type: { type: Number, default: 0 },
     created: { type: Date, default: Date.now }
 });
