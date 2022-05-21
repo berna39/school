@@ -1,5 +1,7 @@
 const User = require('./user.model');
 const bcrypt = require('bcryptjs');
+const userValidator = require('./user.validator');
+const Joi = require('@hapi/joi');
 
 module.exports.findAll = async (_, res) => {
     User.find()
@@ -8,17 +10,23 @@ module.exports.findAll = async (_, res) => {
 };
 
 module.exports.create = async (req, res) => {
-    const { name, user_name, age } = req.body;
+    const { error } = userValidator.validate(req.body);
+    if (error) {
+        res.end(error.details[0].message);
+        res.end();
+    } else {
+        const { name, user_name, age } = req.body;
 
-    const salt = await bcrypt.genSaltSync(10);
-    const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
-    req.body.password = hashedPassword;
+        const salt = await bcrypt.genSaltSync(10);
+        const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
+        req.body.password = hashedPassword;
 
-    newUser = new User(req.body);
-    newUser
-        .save()
-        .then((newUsersaved) => res.json(newUsersaved))
-        .catch((err) => res.status(400).json({ error: err }));
+        newUser = new User(req.body);
+        newUser
+            .save()
+            .then((newUsersaved) => res.json(newUsersaved))
+            .catch((err) => res.status(400).json({ error: err }));
+    }
 };
 
 module.exports.update = async (req, res) => {
@@ -41,9 +49,7 @@ module.exports.update = async (req, res) => {
                 },
             },
         )
-            .then(() =>
-                res.json({ message: 'Updated successfully' }),
-            )
+            .then(() => res.json({ message: 'Updated successfully' }))
             .catch((err) => res.status(400).json({ error: err }));
     }
 };
