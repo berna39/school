@@ -41,7 +41,7 @@ module.exports.update = async (req, res) => {
                 },
             },
         )
-            .then((updatedUser) =>
+            .then(() =>
                 res.json({ message: 'Updated successfully' }),
             )
             .catch((err) => res.status(400).json({ error: err }));
