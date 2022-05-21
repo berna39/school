@@ -1,7 +1,6 @@
 const User = require('./user.model');
 const bcrypt = require('bcryptjs');
 const userValidator = require('./user.validator');
-const Joi = require('@hapi/joi');
 
 module.exports.findAll = async (_, res) => {
     User.find()
