@@ -26,10 +26,20 @@ module.exports.create = async (req, res) => {
         .catch((err) => res.status(400).json({ error: err }));
 };
 
+module.exports.delete = async (req, res) => {
+    let user = User.findById(req.params.id);
+    if (!user) res.status(404).json({ message: 'User not found' });
+    await User.deleteOne({ _id: req.params.id });
+    res.json({ message: 'Deleted successfully' });
+};
+
 module.exports.update = async (req, res) => {
+    const { error } = userValidator.validate(req.body);
+    if (error) return res.send(error.details[0].message);
+
     let user = await User.findById(req.params.id);
     if (!user) {
-        res.status(404).json({ message: 'user not found' });
+        res.status(404).json({ message: 'User not found' });
     } else {
         const salt = await bcrypt.genSaltSync(10);
         const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
@@ -50,12 +60,3 @@ module.exports.update = async (req, res) => {
             .catch((err) => res.status(400).json({ error: err }));
     }
 };
-
-module.exports.delete = async (req, res) => {
-    let user = User.findById(req.params.id);
-    if (!user) res.status(404).json({ message: 'User not found' });
-    await User.deleteOne({ _id: req.params.id });
-    res.json({ message: 'Deleted successfully' });
-};
-
-module.exports.findById = async (req, res) => {};
