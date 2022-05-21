@@ -11,22 +11,19 @@ module.exports.findAll = async (_, res) => {
 
 module.exports.create = async (req, res) => {
     const { error } = userValidator.validate(req.body);
-    if (error) {
-        res.end(error.details[0].message);
-        res.end();
-    } else {
-        const { name, user_name, age } = req.body;
+    if (error) return res.send(error.details[0].message);
 
-        const salt = await bcrypt.genSaltSync(10);
-        const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
-        req.body.password = hashedPassword;
+    const { name, user_name, age } = req.body;
 
-        newUser = new User(req.body);
-        newUser
-            .save()
-            .then((newUsersaved) => res.json(newUsersaved))
-            .catch((err) => res.status(400).json({ error: err }));
-    }
+    const salt = await bcrypt.genSaltSync(10);
+    const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
+    req.body.password = hashedPassword;
+
+    newUser = new User(req.body);
+    newUser
+        .save()
+        .then((newUsersaved) => res.json(newUsersaved))
+        .catch((err) => res.status(400).json({ error: err }));
 };
 
 module.exports.update = async (req, res) => {
