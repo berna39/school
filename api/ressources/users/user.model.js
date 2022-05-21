@@ -7,13 +7,13 @@ const User = new Schema({
         type: String,
         required: true,
         min: 6,
-        max: 191
+        max: 191,
     },
     user_name: {
         type: String,
         required: true,
         min: 6,
-        max: 191
+        max: 191,
     },
     age: {
         type: Number,
@@ -24,10 +24,10 @@ const User = new Schema({
         type: String,
         required: true,
         min: 6,
-        max: 191
+        max: 191,
     },
     type: { type: Number, default: 0 },
-    created: { type: Date, default: Date.now }
+    created: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('users', User);
