@@ -4,7 +4,7 @@ WORKDIR /var/terminator/backend
 
 COPY . .
 
-RUN npn install
+RUN npm install
 
 CMD ["npm", "start"]
 
