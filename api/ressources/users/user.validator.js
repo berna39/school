@@ -6,4 +6,3 @@ module.exports = Joi.object({
     age: Joi.number().min(18).required(),
     password: Joi.string().min(6).required(),
 });
-
