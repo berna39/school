@@ -10,7 +10,8 @@ module.exports.findAll = async (_, res) => {
 
 module.exports.create = async (req, res) => {
     const { error } = userValidator.validate(req.body);
-    if (error) return res.status(400).json({message: error.details[0].message});
+    if (error)
+        return res.status(400).json({ message: error.details[0].message });
 
     const { name, user_name, age } = req.body;
 
@@ -33,7 +34,8 @@ module.exports.findById = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     const { error } = userValidator.validate(req.body);
-    if (error) return res.status(400).json({message: error.details[0].message});
+    if (error)
+        return res.status(400).json({ message: error.details[0].message });
 
     let user = await User.findById(req.params.id);
     if (!user) {
